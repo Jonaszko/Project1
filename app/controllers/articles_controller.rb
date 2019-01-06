@@ -2,7 +2,8 @@ class ArticlesController < ApplicationController
   def new
     #I18n.locale = :pl
     @article = Article.new
-    render #opcjonalnie jesli widok ma zgodna nazwe z akcją kontrolera
+    render
+    #opcjonalnie jesli widok ma zgodna nazwe z akcją kontrolera
   end
 
   def create
@@ -53,7 +54,7 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title, :text)
+    params.require(:article).permit(:title, :text, :terms_of_service)
   end
 
 end
