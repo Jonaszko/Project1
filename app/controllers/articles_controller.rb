@@ -1,7 +1,10 @@
 class ArticlesController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
+
   def new
     #I18n.locale = :pl
-    @article = Article.new
+    @article = current_user.articles.new
+    authorize! :new, @article
     render
     #opcjonalnie jesli widok ma zgodna nazwe z akcją kontrolera
   end
@@ -9,6 +12,8 @@ class ArticlesController < ApplicationController
   def create
     #binding.pry
     @article = Article.new(article_params)
+    @article.user = current_user
+    authorize! :create, @article
     if @article.save
       flash[:success] = t('articles.create.success')
       redirect_to article_path(@article.id) # "/articles/#{article.id}"
@@ -20,22 +25,26 @@ class ArticlesController < ApplicationController
 
   def show
     @article = Article.find(params[:id])
+    authorize! :show, @article
     @comment = @article.comments.new
     render
   end
 
   def index
-    @list_articles = Article.all
+    @list_articles = Article.accessible_by(current_ability, :index)
     render
   end
 
   def edit
+
     @article = Article.find(params[:id])
+    authorize! :edit, @article
 
   end
 
   def update
     @article = Article.find(params[:id])
+    authorize! :update, @article
     if @article.update(article_params)
       flash[:success] = t('articles.update.success')
       redirect_to article_path(@article.id)
@@ -47,6 +56,7 @@ class ArticlesController < ApplicationController
 
   def destroy
     article = Article.find(params[:id])
+    authorize! :destroy, article
     article.destroy
     redirect_to articles_path
   end

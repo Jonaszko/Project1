@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   # get 'welcome/index' default was
   #get '/', to: 'welcome#index'
   root to: 'welcome#index'
