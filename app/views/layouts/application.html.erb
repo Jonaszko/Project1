@@ -17,6 +17,16 @@
   </head>
 
   <body>
+    <div class="navigation">
+      <% if user_signed_in? %>
+      Witaj, <%= current_user.email %>
+      <%= link_to 'Wyloguj', destroy_user_session_path, method: :delete %>
+    <% else %>
+      Witaj!
+      <%= link_to 'Zaloguj sie', new_user_session_path %>
+    <% end %>
+
+
     <div class="flash">
       <% flash.each do |k, v| %>
         <div>
