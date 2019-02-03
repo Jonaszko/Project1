@@ -1,6 +1,6 @@
 <h1> <%= t 'articles.index.title' %> </h1>
 
-<table>
+<table class="table">
   <% @list_articles.each do |article| %>
    <% if can?(:read, article) %>
     <tr>
@@ -9,9 +9,11 @@
       
       <td> <%= excerpt(article.text, '', radius: 100) %> </td>
       <td> <%= article.created_at %> </td>
+      <td>
       <% if can?(:destroy, article) %>
-      <td> <%= link_to t('articles.index.edit_link'), edit_article_path(article.id) %></td>
+       <%= link_to t('articles.index.edit_link'), edit_article_path(article.id) %>
       <% end %>
+      </td>
       <% if can?(:destroy, article) %>
       <td> <%= link_to t('articles.index.delete_link'), article_path(article.id), method: :delete, 
       data: {confirm: t('articles.index.delete_confirm')} %></td>
