@@ -1,0 +1,8 @@
+%h1 Pictures#edit
+%p Find me in app/views/pictures/edit.html.erb
+%p
+  = link_to(t('pictures.edit.back', default: 'Anuluj edycję'), article_picture_path(@article, @picture))
+= simple_form_for(@picture, url: article_picture_path(@article, @picture)) do |f|
+  = f.input :title
+  = f.input :description
+  = f.button :submit
